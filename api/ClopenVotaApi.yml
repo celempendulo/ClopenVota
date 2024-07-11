@@ -1,0 +1,100 @@
+openapi: 3.0.0
+info:
+  title: Online Voting System API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api
+paths:
+  /parties:
+    get:
+      summary: Retrieve all contesting parties
+      responses:
+        '200':
+          description: A list of contesting parties
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Party'
+  /voters/status:
+    get:
+      summary: Check if a voter has voted
+      responses:
+        '200':
+          description: Voter status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoterStatus'
+  /votes/{partyId}:
+    post:
+      summary: Cast a vote for a party
+      parameters:
+        - in: path
+          name: partyId
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Vote cast successfully
+  /votes:
+    delete:
+      summary: Undo the last vote cast by the voter
+      responses:
+        '200':
+          description: Vote undone successfully
+  /votes/scoreboard:
+    get:
+      summary: Retrieve scoreboard showing votes for each party
+      responses:
+        '200':
+          description: Party scores and total votes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  partyScores:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PartyScore'
+                  totalVotes:
+                    type: integer
+components:
+  schemas:
+    Party:
+      type: object
+      properties:
+        partyId:
+          type: string
+        name:
+          type: string
+        logoUrl:
+          type: string
+        abbreviation:
+          type: string
+    VoterStatus:
+      type: object
+      properties:
+        voterId:
+          type: string
+        voted:
+          type: boolean
+    PartyScore:
+      type: object
+      properties:
+        party:
+          $ref: '#/components/schemas/Party'
+        votes:
+          type: integer
+        votesPercentage:
+          type: number
+  securitySchemes:
+    CookieAuth:
+      type: apiKey
+      in: cookie
+      name: voterId
+security:
+  - CookieAuth: []

@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  backend:
+    container_name: vota-backend
+    build:
+      context: .
+      dockerfile: infrastructure/backend/Dockerfile
+    ports:
+      - "80:8080"
+    volumes:
+      - .:/application
+    environment:
+      SPRING_DATA_ARANGODB_HOST: db
+      SPRING_DATA_ARANGODB_PORT: 8529
+      SPRING_DATA_ARANGODB_DATABASE: vota
+      SPRING_DATA_ARANGODB_USER: root
+      SPRING_DATA_ARANGODB_PASSWORD: clopenSecret
+    depends_on:
+      - db
+    tty: true
+    networks:
+      - app-network
+
+  db:
+    container_name: vota-db
+    image: arangodb
+    environment:
+      ARANGO_ROOT_PASSWORD: clopenSecret
+      ARANGO_STORAGE_ENGINE: auto
+      ARANGO_EDITION: community
+    ports:
+      - "8529:8529"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
