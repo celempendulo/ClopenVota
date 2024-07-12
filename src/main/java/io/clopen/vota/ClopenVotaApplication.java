@@ -11,6 +11,7 @@ public class ClopenVotaApplication {
     var context = SpringApplication.run(ClopenVotaApplication.class, args);
     var initializer = context.getBean(Initializer.class);
     initializer.init();
+
   }
 
 }
