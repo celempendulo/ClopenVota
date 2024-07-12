@@ -4,6 +4,7 @@ package io.clopen.vota.api.controller;
 import io.clopen.vota.api.model.VoterStatus;
 import io.clopen.vota.api.service.VotingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,7 +28,8 @@ public class VotingController {
     votingService.castVote(voterId, partyId);
   }
 
-  @DeleteMapping
+  @DeleteMapping("/")
+  @ResponseStatus(HttpStatus.ACCEPTED)
   public void undoVote(@CookieValue("voterId") String voterId) {
     votingService.undoVote(voterId);
   }

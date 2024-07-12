@@ -42,7 +42,7 @@ function renderParties() {
 
 // Function to fetch contesting parties from the server
 function fetchContestingParties() {
-  return fetch(`contest/parties`)
+  return fetch(`api/parties`)
   .then(response => {
     if (!response.ok) {
       throw new Error('Failed to fetch contesting parties');
@@ -76,7 +76,7 @@ function createPartyCard(party) {
                     <h5 class="card-title">${party.name}</h5>
                     <img src="${party.logoUrl}" alt="${party.name} Logo" class="party-logo">
                 </div>
-                <button class="btn btn-primary vote-button" onclick="voteForParty('${party.id}')">Vote</button>
+                <button class="btn btn-primary vote-button" onclick="voteForParty('${party.partyId}')">Vote</button>
             </div>
         </div>
     `;
@@ -85,7 +85,7 @@ function createPartyCard(party) {
 // Function to handle voting for a party
 function voteForParty(partyId) {
   // Send POST request to vote for the party
-  fetch(`contest/vote/${partyId}`, {
+  fetch(`api/votes/${partyId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -147,7 +147,7 @@ function checkVoterStatus() {
 
 // Function to fetch voter status from the server
 function fetchVoterStatus() {
-  return fetch(`contest/vote/voterStatus`)
+  return fetch(`api/votes/status`)
   .then(response => {
     if (!response.ok) {
       throw new Error('Failed to fetch voter status');
@@ -175,7 +175,7 @@ function disableUndoVoteButton() {
 // Function to handle undoing a vote
 function undoVote() {
   // Send DELETE request to undo vote
-  fetch(`contest/vote/`, {
+  fetch(`api/votes/`, {
     method: 'DELETE'
   })
   .then(response => {
@@ -232,7 +232,7 @@ function fetchAndRenderScoreboard() {
 
 // Function to fetch scoreboard data from the server
 function fetchScoreboard() {
-  return fetch(`contest/scoreboard`)
+  return fetch(`api/parties/scoreboard`)
   .then(response => {
     if (!response.ok) {
       throw new Error('Failed to fetch scoreboard');
