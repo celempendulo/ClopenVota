@@ -1,6 +1,5 @@
 package io.clopen.vota.api.service.impl;
 
-import io.clopen.vota.api.dto.VoteDto;
 import io.clopen.vota.api.dto.VoterDto;
 import io.clopen.vota.api.model.Voter;
 import io.clopen.vota.api.repository.VoterRepository;
